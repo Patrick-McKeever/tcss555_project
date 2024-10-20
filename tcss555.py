@@ -244,26 +244,26 @@ def train_image_models(in_dir, out_dir):
 
 	# Base CNN contains contolutional / pooling / FC layers.
 	# Now we just add 1-node sigmoid layer for binary classification.
-	# gender_checkpt_path = os.path.join(out_dir, "gender.h5")
-	# gender_model = get_base_cnn()
-	# gender_model.add(Dropout(0.5))
-	# gender_model.add(Dense(1, activation='sigmoid'))
-	# gender_model.compile(
-	# 	optimizer='adam', 
-	# 	loss='binary_crossentropy', 
-	# 	metrics=['accuracy']
-	# )
-	# gender_loss, gender_acc = train_model(
-	# 	gender_model, 
-	# 	gender_train_gen, 
-	# 	gender_val_gen,
-	# 	gender_checkpt_path
-	# )
+	gender_checkpt_path = os.path.join(out_dir, "gender.h5")
+	gender_model = get_base_cnn()
+	gender_model.add(Dropout(0.5))
+	gender_model.add(Dense(1, activation='sigmoid'))
+	gender_model.compile(
+		optimizer='adam', 
+		loss='binary_crossentropy', 
+		metrics=['accuracy']
+	)
+	gender_loss, gender_acc = train_model(
+		gender_model, 
+		gender_train_gen, 
+		gender_val_gen,
+		gender_checkpt_path
+	)
 
-	# print(f"Gender model summary:")
-	# gender_model.summary()
-	# print(f"Achieved {gender_loss} loss and {gender_acc} accuracy on 10%"
-	#	f"validation set for gender model.")
+	print(f"Gender model summary:")
+	gender_model.summary()
+	print(f"Achieved {gender_loss} loss and {gender_acc} accuracy on 10%"
+		f"validation set for gender model.")
 
 	# This screws up and only gives one path
 	(age_train_gen, age_val_gen) = get_img_gens(
