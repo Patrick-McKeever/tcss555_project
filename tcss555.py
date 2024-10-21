@@ -77,28 +77,45 @@ def extract_face(image, target_size=(64,64)):
 	
 def get_base_cnn(input_shape=(64,64,1)):
 	model = models.Sequential([
-	    layers.Conv2D(32, (3, 3), activation='relu', input_shape=(64, 64, 1)),
-	    #layers.Dropout(0.1),
-	    layers.Conv2D(32, (3, 3), activation='relu'),
-	    layers.Dropout(0.1),
-	    layers.MaxPooling2D((2, 2)),
-	
-	    layers.Conv2D(64, (3, 3), activation='relu'),
-	    #layers.Dropout(0.1),
-	    layers.Conv2D(64, (3, 3), activation='relu'),
-	    layers.Dropout(0.1),
-	    layers.MaxPooling2D((2, 2)),
-	
-	    layers.Conv2D(64, (3, 3), activation='relu'),
-	    #layers.Dropout(0.1),
-	    layers.Conv2D(64, (3, 3), activation='relu'),
-	    layers.Dropout(0.1),
-	    layers.MaxPooling2D((2, 2)),
-	
-	    layers.Flatten(),
-	    layers.Dense(64, activation='relu')
+		layers.Conv2D(32, (3, 3), input_shape=(64, 64, 1)),
+		layers.BatchNormalization(),
+		layers.ReLU(),
+		layers.Dropout(0.3),
+		
+		layers.Conv2D(32, (3, 3)),
+		layers.BatchNormalization(),
+		layers.ReLU(),
+		layers.Dropout(0.3),
+		layers.MaxPooling2D((2, 2)),
+		
+		layers.Conv2D(64, (3, 3)),
+		layers.BatchNormalization(),
+		layers.ReLU(),
+		layers.Dropout(0.3),
+		
+		layers.Conv2D(64, (3, 3)),
+		layers.BatchNormalization(),
+		layers.ReLU(),
+		layers.Dropout(0.3),
+		layers.MaxPooling2D((2, 2)),
+		
+		layers.Conv2D(64, (3, 3)),
+		layers.BatchNormalization(),
+		layers.ReLU(),
+		layers.Dropout(0.3),
+		
+		layers.Conv2D(64, (3, 3)),
+		layers.BatchNormalization(),
+		layers.ReLU(),
+		layers.Dropout(0.3),
+		layers.MaxPooling2D((2, 2)),
+		
+		layers.Flatten(),
+		
+		layers.Dense(64),
+		layers.BatchNormalization(),
+		layers.ReLU()
 	])
-	
 	return model
 
 def get_faces_df(in_dir):
@@ -265,7 +282,6 @@ def train_image_models(in_dir, out_dir):
 	print(f"Achieved {gender_loss} loss and {gender_acc} accuracy on 10%"
 		f"validation set for gender model.")
 
-	# This screws up and only gives one path
 	(age_train_gen, age_val_gen) = get_img_gens(
 		face_df, 
 		face_dir, 
